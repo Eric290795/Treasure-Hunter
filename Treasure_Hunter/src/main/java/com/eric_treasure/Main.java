@@ -10,6 +10,8 @@ public class Main {
 		var j1 = FileToList.load("src/main/java/Maps/j1.txt");
 		System.out.println(map);
 		System.out.println(j1);
+		var maap = new Map(6,5);
+		maap.print();
 	}
 
 }
