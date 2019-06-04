@@ -6,9 +6,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		
-		var map = Map.create("src/main/java/Maps/map.txt");
-		var j1 = FileToList.load("src/main/java/Maps/j1.txt");
-		System.out.println(j1);
+		var map = Map.create("src/main/java/Maps/map.txt", "src/main/java/Maps/j1.txt");
 		map.print();
 	}
 
