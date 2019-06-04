@@ -13,7 +13,7 @@ public class Treasure implements Item{
 
 	@Override
 	public void print() {
-		System.out.println(this.nb_treasure);
+		System.out.print(this.nb_treasure);
 		
 	}
 

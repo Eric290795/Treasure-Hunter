@@ -24,7 +24,13 @@ public class Map {
 		for(var i = 0; i < rows; i++) {
 			System.out.print(i+1);
 			for(var j = 0; j < cols; j++) {
-				System.out.print("| ");
+				System.out.print("|");
+				if(this.items[i][j] == null) {
+					System.out.print(" ");
+				}
+				else {
+					this.items[i][j].print();
+				}
 			}
 			System.out.print("|");
 			System.out.println();
@@ -41,7 +47,7 @@ public class Map {
 		this.items[r][c] = item;
 	}
 	
-	public Map create(String path) throws IOException {
+	public static Map create(String path) throws IOException {
 		
 		var lines = FileToList.load(path);
 		Map map = null;
