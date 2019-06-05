@@ -43,7 +43,7 @@ public class Player implements Item{
 		}
 	}
 	
-	/*public static ArrayList<Player> fromPath(String path) throws IOException {
+	public static ArrayList<Player> fromPath(String path) throws IOException {
 		
 		ArrayList<Player> list_player = new ArrayList<Player>();
 		var lines = FileToList.load(path);
@@ -54,12 +54,12 @@ public class Player implements Item{
 		for(var line : lines) {
 			tokens = line.split(" ");
 			position = tokens[1].split("-");
-			player = new Player(tokens[0], Integer.parseInt(position[1]), Integer.parseInt(position[0]), 
+			player = new Player(tokens[0], Integer.parseInt(position[1])-1, Integer.parseInt(position[0])-1, 
 					Direction.valueOf(tokens[2]), tokens[3]);
 			list_player.add(player);
 		}
 		return list_player;
-	}*/
+	}
 	
 	public void move(Map map) throws InterruptedException {
 		
@@ -102,11 +102,19 @@ public class Player implements Item{
 	}
 
 	public int getRow() {
-		return row -1;
+		return row;
 	}
 
 	public int getCol() {
-		return col -1;
+		return col;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public Direction getDirection() {
+		return this.direction;
 	}
 
 
