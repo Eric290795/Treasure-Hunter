@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+
+
 public class Player implements Item{
 	
 	private final ArrayList<Treasure> treasures = new ArrayList<Treasure>();
@@ -12,7 +14,7 @@ public class Player implements Item{
 	private int col;
 	private Direction direction;
 	private final String moves;
-	private int nextMove;
+	private int nextMove = 0;
 	
 
 	public Player(String name, int row, int col, Direction direction, String moves) {
@@ -41,7 +43,7 @@ public class Player implements Item{
 		}
 	}
 	
-	public static ArrayList<Player> create(String path) throws IOException {
+	/*public static ArrayList<Player> fromPath(String path) throws IOException {
 		
 		ArrayList<Player> list_player = new ArrayList<Player>();
 		var lines = FileToList.load(path);
@@ -57,17 +59,27 @@ public class Player implements Item{
 			list_player.add(player);
 		}
 		return list_player;
-	}
+	}*/
 	
-	public void move(Map map) {
+	public void move(Map map) throws InterruptedException {
 		
-		if(nextMove < moves.length()) {
+		if(continueMove()) {
 			var next = moves.charAt(nextMove);
+			System.out.println(next);
 			switch(next) {
 			case 'A':
-				this.row = this.row + this.direction.getX();
-				this.col = this.col + this.direction.getY();
-				nextMove++;
+				var new_c = this.col + this.direction.getX();
+				var new_r = this.row + this.direction.getY();
+				if(map.canMove(row, col, new_r, new_c)) {
+					this.row = new_r;
+					this.col = new_c;
+					System.out.println("row vaut : " + this.row + " col vaut : " + this.col);
+					var destination = map.get(new_r, new_c);
+					if(destination instanceof Treasure) {
+						this.treasures.add((Treasure)destination);
+					}
+				}
+				this.nextMove++;
 				break;
 			case 'G':
 				this.direction = this.direction.gauche();
@@ -80,8 +92,13 @@ public class Player implements Item{
 			default:
 				throw new IllegalStateException("unknown move: " + next);	
 			}
+			Thread.sleep(1000);
 		}
+	}
 		
+	
+	public boolean continueMove() {
+		return nextMove < moves.length();
 	}
 
 	public int getRow() {

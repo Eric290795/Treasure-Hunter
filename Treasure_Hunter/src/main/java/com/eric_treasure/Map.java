@@ -3,6 +3,7 @@ package com.eric_treasure;
 import java.io.IOException;
 import java.util.Objects;
 
+
 public class Map {
 	
 	private final int rows;
@@ -47,10 +48,35 @@ public class Map {
 		this.items[r][c] = item;
 	}
 	
-	public static Map create(String path,String path2) throws IOException {
+	public Item get(int row, int col) {
+		if(row < 0 || row >= this.rows || col < 0 || col >= this.cols) {
+			throw new IndexOutOfBoundsException();
+		}
+		return items[row][col];
+	}
+	
+	public boolean canMove(int old_r, int old_c, int new_r, int new_c) {
+		if(new_r < 0 || new_r >= this.rows || new_c < 0 || new_c >= this.cols) {
+			return false;
+		}
+		
+		var destination = items[new_r][new_c];
+		if((destination != null) && !(destination instanceof Treasure)) {
+			return false;
+		}
+		
+		var source = items[old_r][old_c];
+		items[new_r][new_c] = source;
+		items[old_r][old_c] = null;
+		return true;
+		
+	}
+	
+	
+	
+	public static Map create(String path) throws IOException {
 		
 		var lines = FileToList.load(path);
-		var players = Player.create(path2);
 		Map map = null;
 		String[] tokens;
 		String[] position;
@@ -77,10 +103,6 @@ public class Map {
 				}
 			}
 		}
-		for(var player : players) {
-			map.set(player.getRow(), player.getCol(), player);
-		}
-		
 		return map;
 	}
 	
