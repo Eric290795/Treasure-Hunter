@@ -41,8 +41,9 @@ public class Player implements Item{
 		}
 	}
 	
-	public static Player create(String path) throws IOException {
+	public static ArrayList<Player> create(String path) throws IOException {
 		
+		ArrayList<Player> list_player = new ArrayList<Player>();
 		var lines = FileToList.load(path);
 		Player player = null;
 		String[] tokens;
@@ -53,8 +54,9 @@ public class Player implements Item{
 			position = tokens[1].split("-");
 			player = new Player(tokens[0], Integer.parseInt(position[1]), Integer.parseInt(position[0]), 
 					Direction.valueOf(tokens[2]), tokens[3]);
+			list_player.add(player);
 		}
-		return player;
+		return list_player;
 	}
 	
 	public void move(Map map) {

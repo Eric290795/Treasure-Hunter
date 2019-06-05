@@ -50,7 +50,7 @@ public class Map {
 	public static Map create(String path,String path2) throws IOException {
 		
 		var lines = FileToList.load(path);
-		Player player = null;
+		var players = Player.create(path2);
 		Map map = null;
 		String[] tokens;
 		String[] position;
@@ -77,8 +77,9 @@ public class Map {
 				}
 			}
 		}
-		player = Player.create(path2);
-		map.set(player.getRow(), player.getCol(), player);
+		for(var player : players) {
+			map.set(player.getRow(), player.getCol(), player);
+		}
 		
 		return map;
 	}
