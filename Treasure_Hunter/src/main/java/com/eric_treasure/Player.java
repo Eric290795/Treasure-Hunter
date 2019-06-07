@@ -124,5 +124,14 @@ public class Player implements Item{
 		return this.direction;
 	}
 
+	@Override
+	public String toString() {
+		return (this.name + " est à la position : " + (this.row+1) + "-" + (this.col+1) + 
+				", avec une direction : " + this.direction + ", avec un nombre de trésor de : "
+				+ this.nbTreasures());
+	}
+	
+	
+
 
 }

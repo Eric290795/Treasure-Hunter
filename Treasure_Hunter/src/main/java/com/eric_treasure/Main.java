@@ -29,6 +29,7 @@ public class Main {
 			map.print();
 			for (var p : players) {
 				p.movePlayer(map);
+				System.out.println(p);
 				if (p.continueMove()) {
 					end = false;
 				}
