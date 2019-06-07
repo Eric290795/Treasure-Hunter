@@ -61,7 +61,15 @@ public class Player implements Item{
 		return list_player;
 	}
 	
-	public void move(Map map) throws InterruptedException {
+	public int nbTreasures() {
+		var nombre = 0;
+		for(var treasure : treasures) {
+			nombre += treasure.getTreasure();
+		}
+		return nombre;
+	}
+
+	public void movePlayer(Map map) throws InterruptedException {
 		
 		if(continueMove()) {
 			var next = moves.charAt(nextMove);
@@ -70,14 +78,14 @@ public class Player implements Item{
 			case 'A':
 				var new_c = this.col + this.direction.getX();
 				var new_r = this.row + this.direction.getY();
-				if(map.canMove(row, col, new_r, new_c)) {
+				var destination = map.get(new_r, new_c);
+				if(destination instanceof Treasure) {
+					System.out.println("OK");
+					this.treasures.add((Treasure)destination);
+				}
+				if(map.Move(row, col, new_r, new_c)) {
 					this.row = new_r;
 					this.col = new_c;
-					System.out.println("row vaut : " + this.row + " col vaut : " + this.col);
-					var destination = map.get(new_r, new_c);
-					if(destination instanceof Treasure) {
-						this.treasures.add((Treasure)destination);
-					}
 				}
 				this.nextMove++;
 				break;
@@ -92,7 +100,6 @@ public class Player implements Item{
 			default:
 				throw new IllegalStateException("unknown move: " + next);	
 			}
-			Thread.sleep(1000);
 		}
 	}
 		

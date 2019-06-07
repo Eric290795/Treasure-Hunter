@@ -16,5 +16,9 @@ public class Treasure implements Item{
 		System.out.print(this.nb_treasure);
 		
 	}
+	
+	public int getTreasure() {
+		return this.nb_treasure;
+	}
 
 }

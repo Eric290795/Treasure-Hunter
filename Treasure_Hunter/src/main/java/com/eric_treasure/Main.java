@@ -28,7 +28,7 @@ public class Main {
 			end = true;
 			map.print();
 			for (var p : players) {
-				p.move(map);
+				p.movePlayer(map);
 				if (p.continueMove()) {
 					end = false;
 				}
@@ -36,6 +36,9 @@ public class Main {
 			
 		} while (!end);
 		map.print();
+		for(var p2 : players) {
+			System.out.println(p2.getName() + " a " + p2.nbTreasures() + " trésor");
+		}
 	}
 
 }

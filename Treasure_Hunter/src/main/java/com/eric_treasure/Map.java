@@ -55,7 +55,7 @@ public class Map {
 		return items[row][col];
 	}
 	
-	public boolean canMove(int old_r, int old_c, int new_r, int new_c) {
+	public boolean Move(int old_r, int old_c, int new_r, int new_c) {
 		if(new_r < 0 || new_r >= this.rows || new_c < 0 || new_c >= this.cols) {
 			return false;
 		}
