@@ -1,12 +1,16 @@
 package com.eric_treasure;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class FileToList {
+	
+	protected static String destination;
 
 	/**
 	 * loads the items from the file at the given path
@@ -35,5 +39,20 @@ public class FileToList {
 		}
 		return tokens;
 	}
+	
+	public static void writeToFile(String s) {
+		try {
+			BufferedWriter file = new BufferedWriter(new FileWriter(new File("src/main/java/Maps/sortie.txt")));
+			try {
+				
+				file.write(s);
+			}finally {
+				file.close();
+			}
+		}catch(IOException ex){
+            ex.printStackTrace();
+		}
+	}
+	
 
 }
