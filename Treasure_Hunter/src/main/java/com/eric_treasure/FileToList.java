@@ -3,11 +3,14 @@ package com.eric_treasure;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 public class FileToList {
 	
@@ -57,6 +60,80 @@ public class FileToList {
 		}catch(IOException ex){
             ex.printStackTrace();
 		}
+	}
+	
+	public static void copyFile(String src, String dest) {
+		FileInputStream instream = null;
+		FileOutputStream outstream = null;
+	 
+	    try{
+	    	File infile =new File(src);
+	    	File outfile =new File(dest);
+	 
+	    	instream = new FileInputStream(infile);
+	    	outstream = new FileOutputStream(outfile);
+	 
+	    	byte[] buffer = new byte[1024];
+	 
+	    	int length;
+	    	/*copying the contents from input stream to
+	    	 * output stream using read and write methods
+	    	 */
+	    	while ((length = instream.read(buffer)) > 0){
+	    		outstream.write(buffer, 0, length);
+	    	}
+
+	    	//Closing the input/output file streams
+	    	instream.close();
+	    	outstream.close();
+
+	    	System.out.println("File copied successfully!!");
+	 
+	    	}catch(IOException ioe){
+	    		ioe.printStackTrace();
+	    	}
+	}
+	
+	public static void createFileMap() throws IOException {
+		File entree = new File("src/main/java/Maps/map.txt");
+		File sortie = new File("src/main/java/Maps/maps.txt");
+		br = new BufferedReader(new FileReader(entree));
+		bw = new BufferedWriter(new FileWriter(sortie));
+		String ligne="";
+	
+		while ((ligne = br.readLine()) != null){
+			System.out.println(ligne);
+		}
+		input = new Scanner(System.in);
+		System.out.print("Do you want to save this map ? O or N : ");
+		char myAnswer = input.next().charAt(0);
+    	if(!(myAnswer == 'O') && !(myAnswer == 'N')) {
+    		throw new IllegalStateException("malformed answer " + myAnswer);
+    	}
+		if(myAnswer == 'O'){
+			copyFile("src/main/java/Maps/map.txt","src/main/java/Maps/maps.txt");
+		}
+		else{
+			var map = Map.createMap();
+			bw.write(map);
+			bw.flush();
+		}
+	}
+	
+	public static boolean createItemOrNot() {
+		input2 = new Scanner(System.in);
+		System.out.print("Do you want to create new item ? O or N : ");
+		char myAnswer = input2.next().charAt(0);
+	    input2.nextLine();
+	    if(!(myAnswer == 'O') && !(myAnswer == 'N')) {
+    		throw new IllegalStateException("malformed answer " + myAnswer);
+    	}
+	    if(myAnswer == 'O'){
+	    	return true;
+	    }
+	    else {
+	    	return false;
+	    }
 	}
 	
 	public static boolean createPlayerOrNot() {

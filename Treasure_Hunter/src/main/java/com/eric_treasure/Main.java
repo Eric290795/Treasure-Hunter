@@ -7,9 +7,11 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
-		var map = Map.create("src/main/java/Maps/map.txt");
 		ArrayList<Player> players = new ArrayList<Player>();
 		StringBuilder builder = new StringBuilder();
+		
+		FileToList.createFileMap();
+		var map = Map.create("src/main/java/Maps/maps.txt");
 		
 		FileToList.createFilePlayers();
 		players = Player.fromPath("src/main/java/Maps/players.txt");

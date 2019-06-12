@@ -142,5 +142,52 @@ public class Map {
     	return player;
 	}
 	
-	
+	public static String createMap() {
+		input = new Scanner(System.in);
+		StringBuilder builder = new StringBuilder();
+    	
+    	// Getting row input
+    	System.out.print("Enter row map : ");
+    	int myRow = input.nextInt();
+    	System.out.println("Row entered = " + myRow);
+    	
+    	// Getting col input
+    	System.out.print("Enter col map : ");
+    	int myCol = input.nextInt();
+    	System.out.println("Row entered = " + myCol);
+    	
+    	builder.append("C " + myRow + " " + myCol).append("\n");
+    	
+    	var createOrNot = FileToList.createItemOrNot();
+    	while(createOrNot) {
+    		System.out.print("What type of item do you want ? T or M : ");
+    		char myItem = input.next().charAt(0);
+    		if(myItem == 'T') {
+    			System.out.print("Enter row treasure : ");
+    	    	int myTreasureRow = input.nextInt();
+    	    	System.out.println("Row entered = " + myTreasureRow);
+    	    	System.out.print("Enter col treasure : ");
+    	    	int myTreasureCol = input.nextInt();
+    	    	System.out.println("Row entered = " + myTreasureCol);
+    	    	System.out.print("Enter number of treasure : ");
+    	    	int myNbTreasure = input.nextInt();
+    	    	System.out.println("Row entered = " + myNbTreasure);
+    	    	
+    	    	builder.append("T " + myTreasureRow + "-" + myTreasureCol + " " + myNbTreasure).append("\n");
+    		}
+    		else{
+    			System.out.print("Enter row mountain : ");
+    	    	int myMountainRow = input.nextInt();
+    	    	System.out.println("Row entered = " + myMountainRow);
+    	    	System.out.print("Enter col mountain : ");
+    	    	int myMountainCol = input.nextInt();
+    	    	System.out.println("Row entered = " + myMountainCol);
+    	    	
+    	    	builder.append("M " + myMountainRow + "-" + myMountainCol).append("\n");
+    		}
+    		createOrNot = FileToList.createItemOrNot();
+    	}
+    	var map = builder.toString();
+		return map;
+	}
 }
