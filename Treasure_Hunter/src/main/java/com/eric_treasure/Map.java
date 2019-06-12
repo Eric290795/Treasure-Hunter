@@ -2,6 +2,7 @@ package com.eric_treasure;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Scanner;
 
 
 public class Map {
@@ -104,6 +105,41 @@ public class Map {
 			}
 		}
 		return map;
+	}
+	
+	public static Player createPlayer() {
+		Scanner input = new Scanner(System.in);
+    	
+    	// Getting name input
+    	System.out.print("Enter name: ");
+    	String myName = input.next();
+    	System.out.println("Name entered = " + myName);
+    	
+    	// Getting row input
+    	System.out.print("Enter row position : ");
+    	int myRow = input.nextInt()-1;
+    	System.out.println("Row entered = " + myRow);
+    	
+    	// Getting col input
+    	System.out.print("Enter col position : ");
+    	int myCol = input.nextInt()-1;
+    	System.out.println("Row entered = " + myCol);
+    	
+    	// Getting direction, input
+    	System.out.print("Enter direction N, O, E or S: ");
+    	String str = input.next();
+    	Direction myDirection = Direction.valueOf(str);
+    	System.out.println("Text entered = " + myDirection);
+    	
+    	// Getting moves input
+    	System.out.print("Enter moves A, G or D: ");
+    	String myMoves = input.next();
+    	System.out.println("Text entered = " + myMoves);
+    	
+    	Player player = new Player(myName, myRow, myCol, myDirection, myMoves);
+    	
+    	input.close();
+    	return player;
 	}
 	
 	

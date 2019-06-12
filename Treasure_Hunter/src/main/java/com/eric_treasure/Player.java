@@ -100,10 +100,15 @@ public class Player implements Item{
 			default:
 				throw new IllegalStateException("unknown move: " + next);	
 			}
+			/*Thread.sleep(1000);*/
 		}
 	}
 		
 	
+	public String getMoves() {
+		return moves;
+	}
+
 	public boolean continueMove() {
 		return nextMove < moves.length();
 	}

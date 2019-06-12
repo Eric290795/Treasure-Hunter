@@ -1,15 +1,19 @@
 package com.eric_treasure;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
 		var map = Map.create("src/main/java/Maps/map.txt");
-		var players = Player.fromPath("src/main/java/Maps/j1.txt");
+		ArrayList<Player> players = new ArrayList<Player>();
 		StringBuilder builder = new StringBuilder();
 		
+		FileToList.createFilePlayers();
+		players = Player.fromPath("src/main/java/Maps/players.txt");
+	
 		for(var p1 : players) {
 			map.set(p1.getRow(), p1.getCol(), p1);
 			System.out.println(p1.getName());
@@ -35,7 +39,7 @@ public class Main {
 		var player = builder.toString();
 		map.print();
 		System.out.println(player);
-		FileToList.writeToFile(player);
+		FileToList.writeToFile(player,"src/main/java/Maps/sortie.txt");
 
 	}
 
