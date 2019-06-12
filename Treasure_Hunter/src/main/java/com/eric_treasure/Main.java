@@ -15,10 +15,10 @@ public class Main {
 		players = Player.fromPath("src/main/java/Maps/players.txt");
 	
 		for(var p1 : players) {
-			map.set(p1.getRow(), p1.getCol(), p1);
-			System.out.println(p1.getName());
 			System.out.println(p1.getCol());
 			System.out.println(p1.getRow());
+			map.set(p1.getRow(), p1.getCol(), p1);
+			System.out.println(p1.getName());
 			System.out.println(p1.getDirection());
 		}
 		

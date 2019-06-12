@@ -10,6 +10,7 @@ public class Map {
 	private final int rows;
 	private final int cols;
 	private final Item[][] items;
+	private static Scanner input;
 
 	public Map(int rows, int cols) {
 		this.rows = Objects.requireNonNull(rows);
@@ -108,7 +109,7 @@ public class Map {
 	}
 	
 	public static Player createPlayer() {
-		Scanner input = new Scanner(System.in);
+		input = new Scanner(System.in);
     	
     	// Getting name input
     	System.out.print("Enter name: ");
@@ -117,12 +118,12 @@ public class Map {
     	
     	// Getting row input
     	System.out.print("Enter row position : ");
-    	int myRow = input.nextInt()-1;
+    	int myRow = input.nextInt();
     	System.out.println("Row entered = " + myRow);
     	
     	// Getting col input
     	System.out.print("Enter col position : ");
-    	int myCol = input.nextInt()-1;
+    	int myCol = input.nextInt();
     	System.out.println("Row entered = " + myCol);
     	
     	// Getting direction, input
@@ -138,7 +139,6 @@ public class Map {
     	
     	Player player = new Player(myName, myRow, myCol, myDirection, myMoves);
     	
-    	input.close();
     	return player;
 	}
 	

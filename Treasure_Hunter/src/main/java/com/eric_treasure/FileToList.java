@@ -59,25 +59,16 @@ public class FileToList {
 		}
 	}
 	
-	public void createFilePlayer(ArrayList<Player> players) {
-		
-		StringBuilder builder = new StringBuilder();
-		for (var p : players) {
-		    builder.append(p).append("\n");
-		}
-		String r = builder.toString();
-		System.out.println(r);
-		writeToFile(r, "src/main/java/Maps/players.txt");
-	}
-	
 	public static boolean createPlayerOrNot() {
 		input2 = new Scanner(System.in);
 		System.out.print("Do you want to create your players ? O or N : ");
-	    String myAnswer = input2.next();
-	    if(!(myAnswer.equals("O")) && !(myAnswer.equals("N"))) {
+	    /*String myAnswer = input2.next();*/
+		char myAnswer = input2.next().charAt(0);
+	    input2.nextLine();
+	    if(!(myAnswer == 'O') && !(myAnswer == 'N')) {
     		throw new IllegalStateException("malformed answer " + myAnswer);
     	}
-	    if(myAnswer.equals("O")){
+	    if(myAnswer == 'O'){
 	    	return true;
 	    }
 	    else {
@@ -86,7 +77,6 @@ public class FileToList {
 	}
 	
 	public static void createFilePlayers() throws IOException {
-		input = new Scanner(System.in);
 		File entree = new File("src/main/java/Maps/j1.txt");
 		File sortie = new File("src/main/java/Maps/players.txt");
 		br = new BufferedReader(new FileReader(entree));
@@ -94,26 +84,29 @@ public class FileToList {
 		String ligne="";
 		
 		// Save players in file or not
+		//OK
 		while ((ligne = br.readLine()) != null){
+			input = new Scanner(System.in);
 			System.out.print("Do you want to save this player " + ligne + " ? O or N : ");
-	    	String myAnswer = input.next();
-	    	if(!(myAnswer.equals("O")) && !(myAnswer.equals("N"))) {
+			char myAnswer = input.next().charAt(0);
+	    	if(!(myAnswer == 'O') && !(myAnswer == 'N')) {
 	    		throw new IllegalStateException("malformed answer " + myAnswer);
 	    	}
-			if(myAnswer.equals("O")){
+			if(myAnswer == 'O'){
 				bw.write(ligne+"\n");
 				bw.flush();
 			}
 		}
 		// Create new players
 	    var begin = createPlayerOrNot();
-		while(begin) {
-			var playerCreate = Map.createPlayer();
+	    while(begin){
+		    var playerCreate = Map.createPlayer();
 			bw.write(playerCreate.getName() + " " + playerCreate.getRow() + "-" + playerCreate.getCol() + 
 					" " + playerCreate.getDirection() + " " + playerCreate.getMoves() + "\n");
 			bw.flush();
 			begin = createPlayerOrNot();
-		}
+	    }
+		
 		bw.close();
 		br.close();
 		 
