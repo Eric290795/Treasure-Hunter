@@ -85,13 +85,12 @@ public class Adventurer implements Item{
 	/**
 	 * move adventurer if it's possible
 	 * @param map the map game
+	 * @throws InterruptedException 
 	 */
-	public void moveAdventurer(Map map){
+	public void moveAdventurer(Map map) throws InterruptedException{
 		
 		if(continueMove()) {
 			var next = moves.charAt(nextMove);
-			System.out.println(next);
-			System.out.println(nextMove);
 			switch(next) {
 			case 'A':
 				// if find treasure wait 1sec
@@ -118,22 +117,19 @@ public class Adventurer implements Item{
 				if(stop == 0) {
 					this.nextMove++;
 				}
-				System.out.println("stop vaut : " + stop);
 				break;
 			case 'G':
 				this.direction = this.direction.left();
 				this.nextMove++;
-				System.out.println("stop vaut : " + stop);
 				break;
 			case 'D':
 				this.direction = this.direction.right();
 				this.nextMove++;
-				System.out.println("stop vaut : " + stop);
 				break;
 			default:
 				throw new IllegalStateException("unknown move: " + next);	
 			}
-			/*Thread.sleep(1000);*/
+			Thread.sleep(1000);
 		}
 }
 		

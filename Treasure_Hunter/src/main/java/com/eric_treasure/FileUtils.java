@@ -166,7 +166,6 @@ public class FileUtils {
 	public static boolean createAdventurerOrNot() {
 		input2 = new Scanner(System.in);
 		System.out.print("Do you want to create your adventurers ? O or N : ");
-	    /*String myAnswer = input2.next();*/
 		char myAnswer = input2.next().charAt(0);
 	    input2.nextLine();
 	    if(!(myAnswer == 'O') && !(myAnswer == 'N')) {

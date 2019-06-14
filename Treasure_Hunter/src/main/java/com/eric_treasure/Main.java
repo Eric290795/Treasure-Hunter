@@ -17,11 +17,7 @@ public class Main {
 		adventurers = Adventurer.fromPath("src/main/java/Maps/players.txt");
 	
 		for(var p1 : adventurers) {
-			System.out.println(p1.getCol());
-			System.out.println(p1.getRow());
 			map.set(p1.getRow(), p1.getCol(), p1);
-			System.out.println(p1.getName());
-			System.out.println(p1.getDirection());
 		}
 		
 		var end = true;
@@ -30,7 +26,6 @@ public class Main {
 			map.print();
 			for (var a : adventurers) {
 				a.moveAdventurer(map);
-				System.out.println(a);
 				builder.append(a.toString()).append("\n");
 				if (a.continueMove()) {
 					end = false;
@@ -40,7 +35,6 @@ public class Main {
 		} while (!end);
 		var adventurer = builder.toString();
 		map.print();
-		System.out.println(adventurer);
 		FileUtils.writeToFile(adventurer,"src/main/java/Maps/sortie.txt");
 
 	}
