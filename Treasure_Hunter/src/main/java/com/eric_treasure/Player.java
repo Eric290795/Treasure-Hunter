@@ -15,6 +15,7 @@ public class Player implements Item{
 	private Direction direction;
 	private final String moves;
 	private int nextMove = 0;
+	private int stop = 0;
 	
 
 	public Player(String name, int row, int col, Direction direction, String moves) {
@@ -72,37 +73,49 @@ public class Player implements Item{
 	public void movePlayer(Map map) throws InterruptedException {
 		
 		if(continueMove()) {
+			
 			var next = moves.charAt(nextMove);
 			System.out.println(next);
+			System.out.println(nextMove);
 			switch(next) {
 			case 'A':
+				if(stop == 1) {
+					stop = 0;
+					this.nextMove++;
+					break;
+				}
 				var new_c = this.col + this.direction.getX();
 				var new_r = this.row + this.direction.getY();
 				var destination = map.get(new_r, new_c);
 				if(destination instanceof Treasure) {
-					System.out.println("OK");
 					this.treasures.add((Treasure)destination);
+					stop = 1;
 				}
 				if(map.Move(row, col, new_r, new_c)) {
 					this.row = new_r;
 					this.col = new_c;
 				}
-				this.nextMove++;
+				if(stop == 0) {
+					this.nextMove++;
+				}
+				System.out.println("stop vaut : " + stop);
 				break;
 			case 'G':
 				this.direction = this.direction.gauche();
 				this.nextMove++;
+				System.out.println("stop vaut : " + stop);
 				break;
 			case 'D':
 				this.direction = this.direction.droite();
 				this.nextMove++;
+				System.out.println("stop vaut : " + stop);
 				break;
 			default:
 				throw new IllegalStateException("unknown move: " + next);	
 			}
 			/*Thread.sleep(1000);*/
 		}
-	}
+}
 		
 	
 	public String getMoves() {
