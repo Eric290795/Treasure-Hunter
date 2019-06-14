@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Representation of the Map board.
+ */
 
 public class Map {
 	
@@ -18,6 +21,10 @@ public class Map {
 		this.items = new Item[rows][cols];
 	}
 	
+	
+	/**
+	 * displays the grid of the map
+	 */
 	public void print() {
 		System.out.print("  ");
 		for(var i = 0; i < cols; i++) {
@@ -57,6 +64,14 @@ public class Map {
 		return items[row][col];
 	}
 	
+	/**
+	 * move the adventurer on the map by changing his new position
+	 * @param old_r his old row position
+	 * @param old_c his old column position
+	 * @param new_r his new row position
+	 * @param new_c his new column position
+	 * @return a boolean if the adventurer moves or not
+	 */
 	public boolean Move(int old_r, int old_c, int new_r, int new_c) {
 		if(new_r < 0 || new_r >= this.rows || new_c < 0 || new_c >= this.cols) {
 			return false;
@@ -75,10 +90,15 @@ public class Map {
 	}
 	
 	
-	
+	/**
+	 * create the map of the game with items
+	 * @param path the path to the file
+	 * @return the map with Treasures and Mountains
+	 * @throws IOException if a problem is occurs while opening or reading the file
+	 */
 	public static Map create(String path) throws IOException {
 		
-		var lines = FileToList.load(path);
+		var lines = FileUtils.load(path);
 		Map map = null;
 		String[] tokens;
 		String[] position;
@@ -108,7 +128,12 @@ public class Map {
 		return map;
 	}
 	
-	public static Player createPlayer() {
+	/**
+	 * create an adventurer by the user
+	 * @return an instance of Adventurer class.
+	 */
+	
+	public static Adventurer createAdventurer() {
 		input = new Scanner(System.in);
     	
     	// Getting name input
@@ -121,7 +146,7 @@ public class Map {
     	int myRow = input.nextInt();
     	System.out.println("Row entered = " + myRow);
     	
-    	// Getting col input
+    	// Getting column input
     	System.out.print("Enter col position : ");
     	int myCol = input.nextInt();
     	System.out.println("Row entered = " + myCol);
@@ -137,11 +162,15 @@ public class Map {
     	String myMoves = input.next();
     	System.out.println("Text entered = " + myMoves);
     	
-    	Player player = new Player(myName, myRow, myCol, myDirection, myMoves);
+    	Adventurer player = new Adventurer(myName, myRow, myCol, myDirection, myMoves);
     	
     	return player;
 	}
 	
+	/**
+	 * create a map by the user
+	 * @return a string with items without adventurers
+	 */
 	public static String createMap() {
 		input = new Scanner(System.in);
 		StringBuilder builder = new StringBuilder();
@@ -151,17 +180,20 @@ public class Map {
     	int myRow = input.nextInt();
     	System.out.println("Row entered = " + myRow);
     	
-    	// Getting col input
+    	// Getting column input
     	System.out.print("Enter col map : ");
     	int myCol = input.nextInt();
     	System.out.println("Row entered = " + myCol);
     	
     	builder.append("C " + myRow + " " + myCol).append("\n");
     	
-    	var createOrNot = FileToList.createItemOrNot();
+    	var createOrNot = FileUtils.createItemOrNot();
     	while(createOrNot) {
     		System.out.print("What type of item do you want ? T or M : ");
     		char myItem = input.next().charAt(0);
+    		if(!(myItem == 'T') && !(myItem == 'M')) {
+        		throw new IllegalStateException("malformed answer " + myItem);
+        	}
     		if(myItem == 'T') {
     			System.out.print("Enter row treasure : ");
     	    	int myTreasureRow = input.nextInt();
@@ -185,7 +217,7 @@ public class Map {
     	    	
     	    	builder.append("M " + myMountainRow + "-" + myMountainCol).append("\n");
     		}
-    		createOrNot = FileToList.createItemOrNot();
+    		createOrNot = FileUtils.createItemOrNot();
     	}
     	var map = builder.toString();
 		return map;

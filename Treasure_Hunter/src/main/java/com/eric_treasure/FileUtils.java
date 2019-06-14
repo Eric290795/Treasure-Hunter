@@ -11,8 +11,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * manipulation of files and keyboard input.
+ */
 
-public class FileToList {
+public class FileUtils {
 	
 	protected static String destination;
 	private static BufferedWriter bw;
@@ -23,8 +26,8 @@ public class FileToList {
 	/**
 	 * loads the items from the file at the given path
 	 * @param path the path to the file
-	 * @return an arraylist of the items
-	 * @throws IOException if a problem is occured while opening or reading the file
+	 * @return an arrayList of the items with their informations (position, number of treasure)
+	 * @throws IOException if a problem is occurs while opening or reading the file
 	 */
 	public static ArrayList<String> load(String path) throws IOException {
 		ArrayList<String> tokens = new ArrayList<>();
@@ -48,12 +51,18 @@ public class FileToList {
 		return tokens;
 	}
 	
-	public static void writeToFile(String s, String path) {
+	/**
+	 * writes the adventurer's position and his treasure number in a file
+	 * @param information the information of the adventurer at every turn
+	 * @param path the path to the file
+	 * @throws IOException if a problem is occurs while opening or reading the file
+	 */
+	public static void writeToFile(String information, String path) {
 		try {
 			BufferedWriter file = new BufferedWriter(new FileWriter(new File(path)));
 			try {
 				
-				file.write(s);
+				file.write(information);
 			}finally {
 				file.close();
 			}
@@ -62,6 +71,12 @@ public class FileToList {
 		}
 	}
 	
+	/**
+	 * copy elements from one file to another
+	 * @param src the path to the file source
+	 * @param dest the path to the file destination
+	 * @throws IOException if a problem is occurs while opening or reading or writing the file
+	 */
 	public static void copyFile(String src, String dest) {
 		FileInputStream instream = null;
 		FileOutputStream outstream = null;
@@ -94,6 +109,10 @@ public class FileToList {
 	    	}
 	}
 	
+	/**
+	 * choice between keeping the map or creating a new
+	 * @throws IOException if a problem is occurs while opening or reading or writing the file
+	 */
 	public static void createFileMap() throws IOException {
 		File entree = new File("src/main/java/Maps/map.txt");
 		File sortie = new File("src/main/java/Maps/maps.txt");
@@ -120,6 +139,10 @@ public class FileToList {
 		}
 	}
 	
+	/**
+	 * choice between create new Item or not
+	 * @return a boolean
+	 */
 	public static boolean createItemOrNot() {
 		input2 = new Scanner(System.in);
 		System.out.print("Do you want to create new item ? O or N : ");
@@ -136,9 +159,13 @@ public class FileToList {
 	    }
 	}
 	
-	public static boolean createPlayerOrNot() {
+	/**
+	 * choice between create new Adventurer or not
+	 * @return a boolean
+	 */
+	public static boolean createAdventurerOrNot() {
 		input2 = new Scanner(System.in);
-		System.out.print("Do you want to create your players ? O or N : ");
+		System.out.print("Do you want to create your adventurers ? O or N : ");
 	    /*String myAnswer = input2.next();*/
 		char myAnswer = input2.next().charAt(0);
 	    input2.nextLine();
@@ -153,18 +180,21 @@ public class FileToList {
 	    }
 	}
 	
-	public static void createFilePlayers() throws IOException {
+	/**
+	 * choice between keeping adventurers and/or creating news
+	 * @throws IOException if a problem is occurs while opening or reading or writing the file
+	 */
+	public static void createFileAdventurers() throws IOException {
 		File entree = new File("src/main/java/Maps/j1.txt");
 		File sortie = new File("src/main/java/Maps/players.txt");
 		br = new BufferedReader(new FileReader(entree));
 		bw = new BufferedWriter(new FileWriter(sortie));
 		String ligne="";
 		
-		// Save players in file or not
-		//OK
+		// Save adventurers in file or not
 		while ((ligne = br.readLine()) != null){
 			input = new Scanner(System.in);
-			System.out.print("Do you want to save this player " + ligne + " ? O or N : ");
+			System.out.print("Do you want to save this adventurer " + ligne + " ? O or N : ");
 			char myAnswer = input.next().charAt(0);
 	    	if(!(myAnswer == 'O') && !(myAnswer == 'N')) {
 	    		throw new IllegalStateException("malformed answer " + myAnswer);
@@ -174,14 +204,14 @@ public class FileToList {
 				bw.flush();
 			}
 		}
-		// Create new players
-	    var begin = createPlayerOrNot();
+		// Create new adventurers
+	    var begin = createAdventurerOrNot();
 	    while(begin){
-		    var playerCreate = Map.createPlayer();
-			bw.write(playerCreate.getName() + " " + playerCreate.getRow() + "-" + playerCreate.getCol() + 
-					" " + playerCreate.getDirection() + " " + playerCreate.getMoves() + "\n");
+		    var adventurerCreate = Map.createAdventurer();
+			bw.write(adventurerCreate.getName() + " " + adventurerCreate.getRow() + "-" + adventurerCreate.getCol() + 
+					" " + adventurerCreate.getDirection() + " " + adventurerCreate.getMoves() + "\n");
 			bw.flush();
-			begin = createPlayerOrNot();
+			begin = createAdventurerOrNot();
 	    }
 		
 		bw.close();

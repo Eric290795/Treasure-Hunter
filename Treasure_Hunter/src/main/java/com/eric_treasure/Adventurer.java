@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Representation of an adventurer.
+ */
 
-
-public class Player implements Item{
+public class Adventurer implements Item{
 	
 	private final ArrayList<Treasure> treasures = new ArrayList<Treasure>();
 	private final String name;
@@ -18,7 +20,7 @@ public class Player implements Item{
 	private int stop = 0;
 	
 
-	public Player(String name, int row, int col, Direction direction, String moves) {
+	public Adventurer(String name, int row, int col, Direction direction, String moves) {
 		this.name = Objects.requireNonNull(name);
 		this.row = Objects.requireNonNull(row);
 		this.col = Objects.requireNonNull(col);
@@ -44,41 +46,55 @@ public class Player implements Item{
 		}
 	}
 	
-	public static ArrayList<Player> fromPath(String path) throws IOException {
+	/**
+	 * loads adventurers from the file at the given path
+	 * @param path the path to the final file
+	 * @return an arrayList of adventurers
+	 * @throws IOException if a problem is occurs while opening or reading the file
+	 */
+	public static ArrayList<Adventurer> fromPath(String path) throws IOException {
 		
-		ArrayList<Player> list_player = new ArrayList<Player>();
-		var lines = FileToList.load(path);
-		Player player = null;
+		ArrayList<Adventurer> list_adventurer = new ArrayList<Adventurer>();
+		var lines = FileUtils.load(path);
+		Adventurer adventurer = null;
 		String[] tokens;
 		String[] position;
 		
 		for(var line : lines) {
 			tokens = line.split(" ");
 			position = tokens[1].split("-");
-			player = new Player(tokens[0], Integer.parseInt(position[1])-1, Integer.parseInt(position[0])-1, 
+			adventurer = new Adventurer(tokens[0], Integer.parseInt(position[1])-1, Integer.parseInt(position[0])-1, 
 					Direction.valueOf(tokens[2]), tokens[3]);
-			list_player.add(player);
+			list_adventurer.add(adventurer);
 		}
-		return list_player;
+		return list_adventurer;
 	}
 	
+	/**
+	 * give the number of treasure picked up by the adventurer
+	 * @return number the number of treasure
+	 */
 	public int nbTreasures() {
-		var nombre = 0;
+		var number = 0;
 		for(var treasure : treasures) {
-			nombre += treasure.getTreasure();
+			number += treasure.getTreasure();
 		}
-		return nombre;
+		return number;
 	}
 
-	public void movePlayer(Map map) throws InterruptedException {
+	/**
+	 * move adventurer if it's possible
+	 * @param map the map game
+	 */
+	public void moveAdventurer(Map map){
 		
 		if(continueMove()) {
-			
 			var next = moves.charAt(nextMove);
 			System.out.println(next);
 			System.out.println(nextMove);
 			switch(next) {
 			case 'A':
+				// if find treasure wait 1sec
 				if(stop == 1) {
 					stop = 0;
 					this.nextMove++;
@@ -87,6 +103,10 @@ public class Player implements Item{
 				var new_c = this.col + this.direction.getX();
 				var new_r = this.row + this.direction.getY();
 				var destination = map.get(new_r, new_c);
+				// wait if an another player is in destination
+				if(destination instanceof Adventurer) {
+					break;
+				}
 				if(destination instanceof Treasure) {
 					this.treasures.add((Treasure)destination);
 					stop = 1;
@@ -101,12 +121,12 @@ public class Player implements Item{
 				System.out.println("stop vaut : " + stop);
 				break;
 			case 'G':
-				this.direction = this.direction.gauche();
+				this.direction = this.direction.left();
 				this.nextMove++;
 				System.out.println("stop vaut : " + stop);
 				break;
 			case 'D':
-				this.direction = this.direction.droite();
+				this.direction = this.direction.right();
 				this.nextMove++;
 				System.out.println("stop vaut : " + stop);
 				break;

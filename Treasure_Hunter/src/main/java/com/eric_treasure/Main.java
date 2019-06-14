@@ -7,16 +7,16 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
-		ArrayList<Player> players = new ArrayList<Player>();
+		ArrayList<Adventurer> adventurers = new ArrayList<Adventurer>();
 		StringBuilder builder = new StringBuilder();
 		
-		FileToList.createFileMap();
+		FileUtils.createFileMap();
 		var map = Map.create("src/main/java/Maps/maps.txt");
 		
-		FileToList.createFilePlayers();
-		players = Player.fromPath("src/main/java/Maps/players.txt");
+		FileUtils.createFileAdventurers();
+		adventurers = Adventurer.fromPath("src/main/java/Maps/players.txt");
 	
-		for(var p1 : players) {
+		for(var p1 : adventurers) {
 			System.out.println(p1.getCol());
 			System.out.println(p1.getRow());
 			map.set(p1.getRow(), p1.getCol(), p1);
@@ -28,20 +28,20 @@ public class Main {
 		do {
 			end = true;
 			map.print();
-			for (var p : players) {
-				p.movePlayer(map);
-				System.out.println(p);
-				builder.append(p.toString()).append("\n");
-				if (p.continueMove()) {
+			for (var a : adventurers) {
+				a.moveAdventurer(map);
+				System.out.println(a);
+				builder.append(a.toString()).append("\n");
+				if (a.continueMove()) {
 					end = false;
 				}
 			}
 			
 		} while (!end);
-		var player = builder.toString();
+		var adventurer = builder.toString();
 		map.print();
-		System.out.println(player);
-		FileToList.writeToFile(player,"src/main/java/Maps/sortie.txt");
+		System.out.println(adventurer);
+		FileUtils.writeToFile(adventurer,"src/main/java/Maps/sortie.txt");
 
 	}
 

@@ -2,6 +2,10 @@ package com.eric_treasure;
 
 import java.util.Objects;
 
+/**
+ * Representation of a vector with 2 dimensions.
+ */
+
 public class Vect {
 	
 	private final int x; 
